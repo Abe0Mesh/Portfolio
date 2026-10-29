@@ -1,26 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  /* Ocean palette (deep navy base) */
+  /* Uniform deep pixel-art ocean base (no vertical gradient seams on scroll) */
   --background: #123a5a;
   --foreground: #f4ead2;
-
-  /*
-   * Pixel art is built on a 4px grid: every rect below is a multiple of 4,
-   * so waves read as chunky "pixels" even though they are vector SVGs.
-   * (In the data URIs, %3C = "<", %3E = ">", %23 = "#".)
-   * Each wave is a small arch shaped like  .XX.  /  X..X  made of 4px blocks.
-   */
-
-  /* Light teal waves, 64x64 tile */
-  --wave-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' shape-rendering='crispEdges'%3E%3Cg fill='%232a6e92'%3E%3Crect x='12' y='8' width='8' height='4'/%3E%3Crect x='4' y='12' width='8' height='4'/%3E%3Crect x='20' y='12' width='8' height='4'/%3E%3Crect x='44' y='40' width='8' height='4'/%3E%3Crect x='36' y='44' width='8' height='4'/%3E%3Crect x='52' y='44' width='8' height='4'/%3E%3C/g%3E%3C/svg%3E");
-
-  /* Dark waves for depth, 96x96 tile */
-  --wave-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' shape-rendering='crispEdges'%3E%3Cg fill='%230e2f49'%3E%3Crect x='16' y='56' width='8' height='4'/%3E%3Crect x='8' y='60' width='8' height='4'/%3E%3Crect x='24' y='60' width='8' height='4'/%3E%3Crect x='64' y='16' width='8' height='4'/%3E%3Crect x='56' y='20' width='8' height='4'/%3E%3Crect x='72' y='20' width='8' height='4'/%3E%3Crect x='48' y='80' width='8' height='4'/%3E%3Crect x='40' y='84' width='8' height='4'/%3E%3Crect x='56' y='84' width='8' height='4'/%3E%3C/g%3E%3C/svg%3E");
-
-  /* Sun glints, two tiles of different sizes so the pattern doesn't look repeated */
-  --glint-a: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' shape-rendering='crispEdges'%3E%3Cg fill='%23cdeefa'%3E%3Crect x='24' y='40' width='8' height='4'/%3E%3Crect x='104' y='12' width='4' height='4'/%3E%3Crect x='128' y='112' width='8' height='4'/%3E%3C/g%3E%3C/svg%3E");
-  --glint-b: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='224' height='224' shape-rendering='crispEdges'%3E%3Cg fill='%23cdeefa'%3E%3Crect x='180' y='60' width='4' height='4'/%3E%3Crect x='40' y='152' width='8' height='4'/%3E%3Crect x='120' y='200' width='4' height='4'/%3E%3Crect x='88' y='100' width='8' height='4'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 @theme inline {
@@ -37,14 +20,52 @@
 }
 
 body {
-  background: var(--background);
+  position: relative;
+  background-color: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Gentle, visible in-place pixel wave swell + 4px pixel bob */
+@keyframes wave-swell-a {
+  0%,
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+  50% {
+    opacity: 0.15;
+    transform: translateY(4px);
+  }
+}
+
+@keyframes wave-swell-b {
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: translateY(4px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+.ocean-swell-a {
+  animation: wave-swell-a 3.2s ease-in-out infinite;
+}
+
+.ocean-swell-b {
+  animation: wave-swell-b 3.2s ease-in-out infinite;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+}
+
 /*
- * Stepped "pixel" corners for the land panels. The number is how many 4px steps are
- * cut from each corner. Nested layers use smaller numbers, so the outlines stay parallel.
+ * Stepped "pixel" corners for the land panels.
  */
 .notch-3 {
   clip-path: polygon(
@@ -79,88 +100,4 @@ body {
     100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px),
     calc(100% - 4px) 100%, 4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px)
   );
-}
-
-/*
- * The ocean: four fixed, full-screen layers pinned behind everything (z-index -1).
- * Paint order is tree order: html::before, body::before, body::after, html::after.
- */
-html::before,
-html::after,
-body::before,
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-}
-
-/* Layer 1: dark waves, slow drift to the left */
-html::before {
-  background-image: var(--wave-dark);
-  background-size: 96px 96px;
-  animation: drift-left 48s steps(24) infinite;
-}
-
-/* Layer 2: light waves, faster drift to the right */
-body::before {
-  background-image: var(--wave-light);
-  background-size: 64px 64px;
-  animation: drift-right 16s steps(16) infinite;
-}
-
-/* Layers 3 & 4: glints that blink on and off, out of sync with each other */
-body::after {
-  background-image: var(--glint-a);
-  background-size: 160px 160px;
-  animation: twinkle 6s linear infinite;
-}
-
-html::after {
-  background-image: var(--glint-b);
-  background-size: 224px 224px;
-  animation: twinkle 9s linear -3s infinite;
-}
-
-/*
- * Each drift moves exactly one tile width, so the loop is seamless.
- * steps(N) makes it hop in 4px jumps (one "pixel" at a time) instead of gliding.
- */
-@keyframes drift-right {
-  to {
-    background-position: 64px 0;
-  }
-}
-
-@keyframes drift-left {
-  to {
-    background-position: -96px 0;
-  }
-}
-
-@keyframes twinkle {
-  0%,
-  49.99% {
-    opacity: 0;
-  }
-  50%,
-  100% {
-    opacity: 0.9;
-  }
-}
-
-/* Respect users who ask their OS to reduce motion: static ocean, no blinking. */
-@media (prefers-reduced-motion: reduce) {
-  html::before,
-  html::after,
-  body::before,
-  body::after {
-    animation: none;
-  }
-
-  html::after,
-  body::after {
-    opacity: 0.7;
-  }
 }

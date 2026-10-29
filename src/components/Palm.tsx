@@ -1,13 +1,20 @@
 // A tiny pixel-art palm tree, drawn as SVG rectangles on a 1-unit grid.
 // Rendered at w-12 (48px), so each unit is 4px, matching the ocean's pixel size.
 
-export default function Palm({ className = "" }: { className?: string }) {
+export default function Palm({
+  className = "",
+  style,
+}: {
+  className?: string;
+  style?: React.CSSProperties;
+}) {
   return (
     <svg
       aria-hidden="true"
       viewBox="0 0 12 10"
       shapeRendering="crispEdges"
       className={`h-auto w-12 ${className}`}
+      style={style}
     >
       {/* trunk */}
       <rect x="5" y="3" width="2" height="7" fill="#7a4a21" />
