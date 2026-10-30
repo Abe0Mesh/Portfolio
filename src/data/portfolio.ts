@@ -124,7 +124,7 @@ export const moreProjects: Project[] = [
       "An interactive D3.js data story and US choropleth map analyzing how emergency room and ambulance costs impact household budgets across all 50 states using US Census ACS and Federal Reserve CPI data.",
     tech: ["JavaScript", "D3.js", "TopoJSON", "Python", "Vercel"],
     links: [
-      { label: "Live Site", href: "https://cheapertohurtt.vercel.app/" },
+      { label: "Live Site", href: "https://cheapertohurt.abemeshesha.com" },
       { label: "GitHub", href: "https://github.com/Abe0Mesh/CheaperToHurt" },
     ],
   },
