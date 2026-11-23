@@ -67,19 +67,22 @@ export const projects: Project[] = [
     name: "Jan's Line",
     summary:
       "A web app that calculates live bar wait times from crowdsourced student check-ins.",
-    role: "Built the mobile-first web interface in React, Next.js, TypeScript, and Tailwind CSS, backed by a Python and Django REST API with PostgreSQL on Amazon RDS. Implemented OOP wait-time aggregation and PyTest validation suites to filter out stale or false troll check-ins, iterating with student testers to make live line updates clearer.",
+    role: "Built the full-stack web app in React, Next.js, and TypeScript, backed by a Node.js and Express REST API with PostgreSQL on Amazon RDS. Implemented an OOP consensus engine with median outlier rejection and exponential decay to calculate live crowd estimates, verified with Vitest suites and optimized with pg.Pool connection pooling.",
     tech: [
       "React",
       "Next.js",
       "TypeScript",
-      "Tailwind CSS",
-      "Python",
-      "Django",
+      "Node.js",
+      "Express",
       "PostgreSQL",
       "AWS RDS",
-      "PyTest",
+      "Vitest",
+      "Vercel",
     ],
-    links: [{ label: "GitHub", href: "https://github.com/Abe0Mesh/Jans-Line" }],
+    links: [
+      { label: "Live Site", href: "https://jansline.abemeshesha.com" },
+      { label: "GitHub", href: "https://github.com/Abe0Mesh/Jans-Line" },
+    ],
   },
   {
     name: "Plant Health Monitor",
