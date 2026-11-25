@@ -5,10 +5,9 @@
 
 const NAV_ITEMS = [
   { label: "Top", href: "#top" },
-  { label: "Projects", href: "#projects-heading" },
+  { label: "Featured", href: "#projects-heading" },
   { label: "Experience", href: "#experience-heading" },
-  { label: "Skills", href: "#skills-heading" },
-  { label: "Contact", href: "#contact-heading" },
+  { label: "More", href: "#more-heading" },
 ];
 
 function DockedPirateShip3D() {

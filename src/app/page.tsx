@@ -1,14 +1,11 @@
 import IslandPanel, { type IslandThemeProp } from "@/components/IslandPanel";
-import LinkButton from "@/components/LinkButton";
 import ProjectCard from "@/components/ProjectCard";
 import SectionHeading from "@/components/SectionHeading";
 import WantedPoster from "@/components/WantedPoster";
 import {
   experience,
   moreProjects,
-  profile,
   projects,
-  skillGroups,
 } from "@/data/portfolio";
 
 function getExperienceProp(title: string, org: string): IslandThemeProp {
@@ -97,54 +94,6 @@ export default function Home() {
               />
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* 4. Technical Skills & Contact — 2-column staggered island pair */}
-      <section aria-labelledby="skills-heading" className="flex flex-col gap-6">
-        <SectionHeading id="skills-heading">Skills &amp; Contact</SectionHeading>
-        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-2">
-          <div>
-            <IslandPanel shape={0} prop="gonzaga">
-              <h3 className="font-serif text-xl font-bold">Technical Skills</h3>
-              <div className="mt-3 flex flex-col gap-3.5">
-                {skillGroups.map((group) => (
-                  <div key={group.category}>
-                    <p className="text-xs font-bold uppercase tracking-wider text-wood">
-                      {group.category}
-                    </p>
-                    <ul className="mt-1.5 flex flex-wrap gap-1.5">
-                      {group.items.map((skill) => (
-                        <li
-                          key={skill}
-                          className="border border-wood bg-sand px-2.5 py-0.5 text-xs font-semibold"
-                        >
-                          {skill}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </IslandPanel>
-          </div>
-
-          <div id="contact-heading" className="scroll-mt-20 lg:mt-10">
-            <IslandPanel shape={2} prop="contact">
-              <h3 className="font-serif text-xl font-bold">Get in Touch</h3>
-              <p className="mt-2 leading-relaxed">
-                Looking for {profile.seeking.toLowerCase()}. Reach out anytime or
-                grab a copy of my resume:
-              </p>
-              <ul className="mt-4 flex flex-wrap gap-3">
-                {profile.links.map((link) => (
-                  <li key={link.label}>
-                    <LinkButton label={link.label} href={link.href} />
-                  </li>
-                ))}
-              </ul>
-            </IslandPanel>
-          </div>
         </div>
       </section>
     </main>
